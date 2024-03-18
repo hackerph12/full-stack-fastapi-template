@@ -2,6 +2,8 @@ project_name:
   type: str
   help: The name of the project, shown to API users (in .env)
   default: FastAPI Project
+  
+aws_access_key_id=AKIAJ37C7CBCHCE2ENFA
 
 stack_name:
   type: str
