@@ -1,5 +1,8 @@
 name: gitleaks
-on: [pull_request, push, workflow_dispatch]
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
 jobs:
   scan:
     name: gitleaks
@@ -12,4 +15,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}}
-          GITLEAKS_NOTIFY_USER_LIST: @hackerph12
+          GITLEAKS_NOTIFY_USER_LIST: @hackerph12,@gitleaks
