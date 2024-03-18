@@ -9,6 +9,7 @@ stack_name:
   default: fastapi-project
 
 secret_key:
+TEST
   type: str
   help: |
     'The secret key for the project, used for security,
