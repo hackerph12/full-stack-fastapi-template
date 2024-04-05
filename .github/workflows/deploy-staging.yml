@@ -1,29 +1,32 @@
-name: Deploy to Staging
+name: OWASP ZAP Full Security Scan
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  deploy:
-    runs-on:
-      - self-hosted
-      - staging
-    env:
-      ENVIRONMENT: staging
-      DOMAIN: ${{ secrets.DOMAIN_STAGING }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      FIRST_SUPERUSER: ${{ secrets.FIRST_SUPERUSER }}
-      FIRST_SUPERUSER_PASSWORD: ${{ secrets.FIRST_SUPERUSER_PASSWORD }}
-      SMTP_HOST: ${{ secrets.SMTP_HOST }}
-      SMTP_USER: ${{ secrets.SMTP_USER }}
-      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-      EMAILS_FROM_EMAIL: ${{ secrets.EMAILS_FROM_EMAIL }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+  zap_full_scan:
+    runs-on: ubuntu-latest
+    name: Full Scan of the Web Application
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - run: docker compose -f docker-compose.yml build
-      - run: docker compose -f docker-compose.yml up -d
+        uses: actions/checkout@v2
+
+      - name: ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.10.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: "owasp/zap2docker-stable"
+          target: "https://burpsuite.bulb.cloud"
+          cmd_options: '-z "-configFile /zap/wrk/options.prop" -J zap_report.json -w zap_report.md -r zap_report.html'
+
+      - name: Upload ZAP Scan Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: zap-scan-reports
+          path: |
+            zap_report.json
+            zap_report.md
+            zap_report.html
