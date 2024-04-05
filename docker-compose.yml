@@ -124,6 +124,7 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.middlewares=${STACK_NAME?Variable not set}-www-redirect
       # Middleware to redirect www, and redirect HTTP to HTTPS
       # to disable www redirection remove the section: ${STACK_NAME?Variable not set}-www-redirect,
+      CSACSAC
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect,${STACK_NAME?Variable not set}-www-redirect
 volumes:
   app-db-data:
