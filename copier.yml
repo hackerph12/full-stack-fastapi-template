@@ -2,7 +2,7 @@ project_name:
   type: str
   help: The name of the project, shown to API users (in .env)
   default: FastAPI Project
-
+HELLP
 stack_name:
   type: str
   help: The name of the stack used for Docker Compose labels (no spaces) (in .env)
